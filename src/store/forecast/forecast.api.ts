@@ -1,6 +1,8 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import {IDay, IForecastResponse} from "../interfaces";
+import {BaseQueryMeta, BaseQueryResult} from "@reduxjs/toolkit/dist/query/baseQueryTypes";
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
+const baseUrl = process.env.BASE_URL;
 export type TSearchParams = {
    searchCity: string
    startDate: string
@@ -13,16 +15,20 @@ export const forecastApi = createApi({
    }),
    refetchOnFocus: true,
    endpoints: build => ({
-      searchCity: build.query<any, TSearchParams>({
+      searchCity: build.query<IDay[], TSearchParams>({
          query: (searchParams: TSearchParams) => {
             console.log('baseUrl-', baseUrl);
             return {
-               url: `${searchParams.searchCity},UA/${searchParams.startDate}/${searchParams.endDate}`,
+               url: `${searchParams.searchCity}/${searchParams.startDate}/${searchParams.endDate}`,
                params: {
+                  unitGroup: 'metric',
+                  include: 'days',
                   key: '2DLEMQ8VMWQZ4BRRGN83WXMG7',
+                  contentType: 'json'
                }
             }
          },
+         transformResponse:(response:IForecastResponse) =>response.days
       }),
 
    })
