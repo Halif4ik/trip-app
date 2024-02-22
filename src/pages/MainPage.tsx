@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {TSearchParams, useSearchCityQuery} from "../store/forecast/forecast.api";
+import {useLinkClickHandler} from "react-router-dom";
+import {useLazySearchCityQuery} from "../store/images/images.api";
+import {TripCard} from "../component/TripCart";
 
 export function MainPage() {
    const searchObj: TSearchParams = {
@@ -9,30 +12,39 @@ export function MainPage() {
    }
    const [searchForecast, setStateForecast] = useState('')
    const [dropdown, setDropdown] = useState(false)
-   const [debounced, setDebounced] = useState('');
+   const [freez, setFreez] = useState('');
 
    const {isLoading, isError, data} = useSearchCityQuery({
           ...searchObj,
-          searchCity: debounced,
+          searchCity: freez,
        },
        {
-          skip: debounced.length < 4,
+          skip: freez.length < 4,
           refetchOnFocus: true
        });
 
    useEffect(() => {
-      const handler: NodeJS.Timeout = setTimeout(() => setDebounced(searchForecast), 1300);
+      const handler: NodeJS.Timeout = setTimeout(() => setFreez(searchForecast), 2000);
       return () => clearTimeout(handler);
    }, [searchForecast]);
 
    useEffect(() => {
-      console.log('useEffect-', debounced);
-      setDropdown(debounced.length > 4 && !!data && data.length > 0);
-   }, [debounced, data]);
+      console.log('useEffect-', freez);
+      setDropdown(freez.length > 4 && !!data && data.days.length > 0);
+   }, [freez, data]);
+
+   const clickHandler = (dataForecast: any) => {
+      const temp = fetchToPexels(dataForecast.address);
+      console.log('fetchToPexels!-', temp);
+      console.log('isPexelsLoading-', isPexelsLoading);
+   };
+   /*city*/
+   const [fetchToPexels, {isLoading: isPexelsLoading, data: pexelsData}] = useLazySearchCityQuery();
+
 
    return (
        <div className="flex justify-center pt-10 mx-auto h-screen w-screen">
-          {isError && <p className="text-center text-red-600">Something went wrong...</p>}
+          {isError && <p className="text-center text-red-600">Wrong city name...</p>}
 
           <div className="relative w-[660px]">
              <input
@@ -45,20 +57,28 @@ export function MainPage() {
              {dropdown &&
                  <ul className="list-none absolute top-[42px] left-0 right-0 max-h-[200px] overflow-y-scroll shadow-md bg-white">
                     {isLoading && <p className="text-center">Loading...</p>}
-                    {data?.map(oneDay => (
+                    {data?.days.map(oneDay => (
                         <li key={oneDay.datetime}
-                            className="py-2 px-4 hover:bg-gray-400 hover:text-white transition-colors cursor-pointer"
-                        >temp-:{oneDay.temp}</li>
+                            onClick={() => clickHandler(data)}
+                            className="py-2 px-4 hover:bg-gray-300 hover:text-white transition-colors cursor-pointer"
+                        >{data.resolvedAddress}-:{oneDay.temp}</li>
                     ))}
                  </ul>}
 
+             {/*<ul className="list-none absolute top-[42px] left-0 right-0 max-h-[200px] overflow-y-scroll shadow-md bg-white">
+                {imagesLoading && <p className="text-center">Loading images...</p>}
+                {imagesData && imagesData.map(imageUrl => (
+                    <li key={imageUrl}><img src={imageUrl} alt="City"/></li>
+                ))}
+                {imagesError && <p className="text-center text-red-600">Failed to load images</p>}
+             </ul>*/}
+             <div className="container">
+                {isPexelsLoading && <p className="text-center">Loading from Pexels...</p>}
+                {pexelsData?.map(pexelsDataEl => <TripCard pexelsDataEl={pexelsDataEl} key={pexelsDataEl.id}/>)}
+             </div>
 
-             {/*  <div className="container">
-                { areReposLoading && <p className="text-center">Repos are loading...</p> }
-                { repos?.map(repo => <RepoCard repo={repo} key={repo.id} />) }
-             </div>*/}
+
           </div>
-
        </div>
    )
 }
