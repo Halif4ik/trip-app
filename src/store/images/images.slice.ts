@@ -1,29 +1,24 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {IDataForTrip} from "../interfaces";
 
-const LS_FAV_KEY = 'rfk'
-
-interface GithubState {
-  favourites: string[]
+interface PexelsState {
+  myTrips: IDataForTrip[]
 }
 
-const initialState: GithubState = {
-  favourites: JSON.parse(localStorage.getItem(LS_FAV_KEY) ?? '[]')
+const initialState: PexelsState = {
+  myTrips: JSON.parse(localStorage.getItem('reactTrip') || '[]')
 }
 
 export const imagesSlice = createSlice({
-  name: 'github',
+  name: 'pexels',
   initialState,
   reducers: {
-    addFavourite(state, action: PayloadAction<string>) {
-      state.favourites.push(action.payload)
-      localStorage.setItem(LS_FAV_KEY, JSON.stringify(state.favourites))
+    addTrip(state, payloadAct: PayloadAction<IDataForTrip>) {
+      state.myTrips.push(payloadAct.payload)
+      localStorage.setItem('reactTrip', JSON.stringify(state.myTrips))
     },
-    removeFavourite(state, action: PayloadAction<string>) {
-      state.favourites = state.favourites.filter(f => f !== action.payload)
-      localStorage.setItem(LS_FAV_KEY, JSON.stringify(state.favourites))
-    }
   }
 })
 
-export const forecastActions = imagesSlice.actions
-export const forecastReducer = imagesSlice.reducer
+export const imagesPexelsActions = imagesSlice.actions
+export const imagesPexelsReducer = imagesSlice.reducer

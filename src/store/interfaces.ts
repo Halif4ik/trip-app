@@ -98,6 +98,8 @@ export interface IPhoto {
    src: IVarImg
    liked: boolean
    alt: string
+   city?:string
+   days?:IDay[]
 }
 
 export interface IVarImg {
@@ -109,4 +111,10 @@ export interface IVarImg {
    portrait: string
    landscape: string
    tiny: string
+}
+
+export interface IDataForTrip{
+   medium: string
+   city:string
+   days:IDay[]
 }

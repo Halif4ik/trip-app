@@ -7,7 +7,7 @@ export function Navigation() {
           <h3 className="font-bold">Trip app</h3>
           <span className="min-w-44 flex justify-between">
             <Link to="/" className="mr-2">Main</Link>
-            <Link to="/favourites">Favourites</Link>
+            <Link to="/trips">Trips</Link>
       </span>
        </nav>
    )
