@@ -39,8 +39,43 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Goal of task
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Trip app with countdown timer and weather forecast
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+Using React.js (preferably, but you can use Angular or any other framework), implement a Trip app where users can see the weather forecast for their upcoming journeys, following these requirements:
+Visualization of the page: Main.png.
+Upon starting the application, user should already have a static list of trips (1 trip is enough). The list should be scrollable.
+When user selects a trip from the list, a forecast for each day of the trip should be displayed.
+On the top:
+There should be a possibility to search for a trip
+The app should include a button for adding a new trip. When the user clicks on "Add trip," a modal window should appear. Inside the modal, the user should have the ability to:
+Choose a city from a predefined list (you should have a mock list of cities that the API supports, with images).
+Enter the start date of the trip (the start date should be within the next 15 days).
+Enter the end date of the trip (the end date should be within the next 15 days).
+Upon clicking "Done," the trip should be added to the list.
+Modal visualization Modal.png
+On the right side of the page:
+When user selects a trip, today's weather forecast for that city should be displayed.
+There should be a countdown timer from the current date to the start date of the trip.
+Additionally:
+Implement next and previous buttons for the list to handle scrolling better
+Sort trips by start trip date
+Implement login through third-party providers (Gmail, Facebook, etc.) - at least one of
+Implement store data (trips) after reloading page.
+
+
+Please, don’t use any UI components libraries, only HTML/CSS
+Free weather API: https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/
+
+
+Notes:
+1. To get YOUR_API_KEY you need to register an account
+2. Available 1000 recored/day for free
+
+API for getting forecast from - to for the city
+https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/[city]/[date1]/[date2]?unitGroup=metric&include=days&key=YOUR_API_KEY&contentType=json
+
+API for getting today’s weather for the city
+https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/[city]/today?unitGroup=metric&include=days&key=YOUR_API_KEY&contentType=json

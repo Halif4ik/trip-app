@@ -1,10 +1,10 @@
 import React, {useEffect, useState, useCallback} from "react";
-import {TripCart} from "../component/TripCart";
-import {IDataForTrip, IDay} from "../store/interfaces";
+import {IDay} from "../store/interfaces";
 import {TSearchParams, useSearchCityQuery} from "../store/forecast/forecast.api";
 import {useLazySearchCityQuery} from "../store/images/images.api";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
 import {RootState} from "../store";
+import {TripCart} from "../component/TripCart";
 import {AddTrip} from "../component/AddTrip";
 
 export function MainPage() {
